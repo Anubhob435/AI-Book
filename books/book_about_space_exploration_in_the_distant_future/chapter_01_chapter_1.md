@@ -1,6 +1,6 @@
 # Chapter 1: Chapter 1
 
-![Chapter 1 Illustration: Chapter 1](../illustrations/chapter_01_chapter_1_20250412_212549.png)
+![Chapter 1 Illustration: Chapter 1](illustrations/chapter_01_chapter_1_20250412_212549.png)
 
 Okay, here's an edited version of Chapter 1, focusing on improving grammar, clarity, flow, narrative coherence, and maintaining the original creative style:
 
