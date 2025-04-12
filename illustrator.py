@@ -18,19 +18,27 @@ if not api_key:
 # Initialize the client with the API key
 client = genai.Client(api_key=api_key)
 
-def generate_illustration(description: str, prefix: str = "illustration") -> str:
+def generate_illustration(description: str, prefix: str = "illustration", book_path: str = None) -> str:
     """
     Generate an illustration based on the provided description
     
     Args:
         description: A text description of what to generate
         prefix: A prefix for the filename (default: 'illustration')
+        book_path: Path to the book folder where illustrations should be saved
         
     Returns:
         The file path of the saved illustration
     """
+    # Determine where to save the illustrations
+    if book_path:
+        # Save in the book's illustrations directory
+        illustrations_dir = os.path.join(book_path, 'illustrations')
+    else:
+        # Fallback to default location
+        illustrations_dir = os.path.join(os.path.dirname(__file__), 'illustrations')
+    
     # Create illustrations directory if it doesn't exist
-    illustrations_dir = os.path.join(os.path.dirname(__file__), 'illustrations')
     if not os.path.exists(illustrations_dir):
         os.makedirs(illustrations_dir)
     
@@ -71,4 +79,6 @@ if __name__ == "__main__":
                 'with wings and a top hat flying over a happy '
                 'futuristic scifi city with lots of greenery?')
     
-    generate_illustration(contents)
+    # Example of using with a book path
+    book_path = os.path.join(os.path.dirname(__file__), 'books', 'book_about_space_exploration_in_the_distant_future')
+    generate_illustration(contents, book_path=book_path)
