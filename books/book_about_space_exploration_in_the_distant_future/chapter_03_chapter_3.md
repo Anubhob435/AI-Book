@@ -1,6 +1,6 @@
 # Chapter 3: Chapter 3
 
-![Chapter 3 Illustration: Chapter 3](illustrations\chapter_03_chapter_3_20250412_213850.png)
+![Chapter 3 Illustration: Chapter 3](illustrations/chapter_03_chapter_3_20250412_213850.png)
 
 ## Chapter 3: Ghosts of Kepler-186f
 
