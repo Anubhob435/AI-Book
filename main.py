@@ -586,13 +586,16 @@ if __name__ == "__main__":
     
     # For a complete book, chapter by chapter
     # Step 1: Create book plan
-    book_title = book_pipeline("space exploration in the distant future", num_chapters=3)
+    #book_title = book_pipeline("space exploration in the distant future", num_chapters=3)
     
     # Step 2: Write each chapter one at a time
-    write_next_chapter(book_title)
+    #write_next_chapter(book_title)
     
     # Step 3: After all chapters are written, compile the book
-    compile_book(book_title)
+    #compile_book(book_title)
+
+
+    write_next_chapter('Book about space exploration in the distant future')
     
     # Get status of books
     # get_book_status()  # List all books

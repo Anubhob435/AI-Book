@@ -2,8 +2,6 @@
 
 ![Chapter 1 Illustration: Chapter 1](illustrations/chapter_01_chapter_1_20250412_212549.png)
 
-Okay, here's an edited version of Chapter 1, focusing on improving grammar, clarity, flow, narrative coherence, and maintaining the original creative style:
-
 ## Chapter 1: Echoes of the Singularity
 
 The crimson sun of Xylos bled across the viewport, painting the bridge of the *Star Wanderer* in hues of fire and blood. Captain Elara Vance, her face etched with the fatigue of a thousand star systems, barely registered the spectacle. Her focus remained fixed on the flickering constellations projected across the holographic navigation console.
