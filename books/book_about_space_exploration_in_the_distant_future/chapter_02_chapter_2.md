@@ -1,6 +1,6 @@
 # Chapter 2: Chapter 2
 
-![Chapter 2 Illustration: Chapter 2](illustrations\chapter_02_chapter_2_20250412_213720.png)
+![Chapter 2 Illustration: Chapter 2](illustrations/chapter_02_chapter_2_20250412_213720.png)
 
 
 ## Chapter 2: The Echo of Kepler-186f
