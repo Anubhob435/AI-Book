@@ -5,11 +5,11 @@
     "topic": "space exploration in the distant future",
     "creation_date": "2025-04-12",
     "last_updated": "2025-04-12",
-    "status": "in-progress",
+    "status": "complete",
     "total_chapters": 3,
-    "completed_chapters": 1,
-    "estimated_word_count": 1689,
-    "estimated_page_count": 6.8
+    "completed_chapters": 3,
+    "estimated_word_count": 4882,
+    "estimated_page_count": 19.5
   },
   "generation_info": {
     "book_plan": {
@@ -68,13 +68,13 @@
       "key_points": [
         "Explore space exploration in the distant future"
       ],
-      "status": "planned",
+      "status": "published",
       "creation_date": null,
-      "last_edited": null,
-      "publication_date": null,
-      "word_count": 0,
-      "page_count": 0,
-      "filename": null
+      "last_edited": "2025-04-12",
+      "publication_date": "2025-04-12",
+      "word_count": 1347,
+      "page_count": 5.4,
+      "filename": "books\\book_about_space_exploration_in_the_distant_future\\chapter_02_chapter_2.md"
     },
     {
       "chapter_number": 3,
@@ -83,13 +83,13 @@
       "key_points": [
         "Explore space exploration in the distant future"
       ],
-      "status": "planned",
+      "status": "published",
       "creation_date": null,
-      "last_edited": null,
-      "publication_date": null,
-      "word_count": 0,
-      "page_count": 0,
-      "filename": null
+      "last_edited": "2025-04-12",
+      "publication_date": "2025-04-12",
+      "word_count": 1846,
+      "page_count": 7.4,
+      "filename": "books\\book_about_space_exploration_in_the_distant_future\\chapter_03_chapter_3.md"
     }
   ]
 }

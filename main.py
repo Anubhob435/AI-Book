@@ -595,7 +595,8 @@ if __name__ == "__main__":
     #compile_book(book_title)
 
 
-    write_next_chapter('Book about space exploration in the distant future')
+    #write_next_chapter('Book about space exploration in the distant future')
+    compile_book('Book about space exploration in the distant future')
     
     # Get status of books
     # get_book_status()  # List all books
