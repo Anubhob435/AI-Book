@@ -4,9 +4,13 @@ import json
 import time
 import datetime
 from pathlib import Path
+import re
 
 # Update the import for the Google Generative AI client
 from google import genai
+
+# Import from illustrator.py
+from illustrator import generate_illustration
 
 load_dotenv()
 # Configure the client with your API key
@@ -313,6 +317,37 @@ def book_cover_description_agent(book_plan: dict) -> str:
     )
     return response.text.strip()
 
+# New illustrator agent
+def illustrator_agent(chapter_content: str, chapter_title: str, book_title: str, chapter_number: int) -> str:
+    """Generates an illustration for a chapter based on its content"""
+    print(f"🎨 Generating illustration for chapter: {chapter_title}...")
+    
+    # Create a prompt for the illustration
+    prompt = f"""
+    Based on the following chapter titled "{chapter_title}" from the book "{book_title}", 
+    generate a detailed description for an illustration that captures a key scene or theme.
+    Limit your description to 1-2 sentences that clearly describe what to illustrate.
+    
+    Chapter content:
+    {chapter_content[:1500]}  # Using first 1500 chars to stay within token limits
+    """
+    
+    # Get illustration description from AI
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=prompt
+    )
+    illustration_description = response.text.strip()
+    
+    # Generate the actual illustration using the description
+    illustration_filename = generate_illustration(illustration_description, f"chapter_{chapter_number:02d}_{chapter_title}")
+    
+    # Return the relative path to be used in markdown
+    relative_path = os.path.relpath(illustration_filename, os.path.dirname(__file__))
+    
+    print(f"✅ Illustration generated and saved as '{os.path.basename(illustration_filename)}'")
+    return f"![Chapter {chapter_number} Illustration: {chapter_title}]({relative_path})"
+
 def book_pipeline(topic: str, num_chapters: int = 5):
     """Complete pipeline to create and publish a book"""
     print(f"📚 Starting book creation process on topic: {topic}")
@@ -368,10 +403,14 @@ def write_next_chapter(book_title: str):
     print(f"✏️ Editing chapter {chapter['chapter_number']}...")
     edited_chapter = chapter_editor_agent(raw_chapter, chapter['chapter_title'])
     
+    # Generate illustration for the chapter
+    illustration_markdown = illustrator_agent(edited_chapter, chapter['chapter_title'], book_plan['book_title'], chapter['chapter_number'])
+    
     # Save the chapter
     chapter_filename = book_metadata.chapters_dir / f"chapter_{chapter['chapter_number']:02d}_{chapter['chapter_title'].replace(' ', '_').lower()}.md"
     with open(chapter_filename, "w", encoding="utf-8") as f:
         f.write(f"# Chapter {chapter['chapter_number']}: {chapter['chapter_title']}\n\n")
+        f.write(illustration_markdown + "\n\n")
         f.write(edited_chapter)
     
     # Update metadata with chapter details
