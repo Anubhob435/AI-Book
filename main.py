@@ -11,6 +11,8 @@ from google import genai
 
 # Import from illustrator.py
 from illustrator import generate_illustration
+# Import from editor.py
+from editor import FormatAgent
 
 load_dotenv()
 # Configure the client with your API key
@@ -406,15 +408,20 @@ def write_next_chapter(book_title: str):
     # Generate illustration for the chapter
     illustration_markdown = illustrator_agent(edited_chapter, chapter['chapter_title'], book_plan['book_title'], chapter['chapter_number'])
     
+    # Apply advanced formatting with the Format Agent
+    print(f"🎨 Enhancing formatting for chapter {chapter['chapter_number']}...")
+    format_agent = FormatAgent()
+    formatted_chapter = format_agent.format_chapter(edited_chapter, chapter['chapter_title'], chapter['chapter_number'])
+    
     # Save the chapter
     chapter_filename = book_metadata.chapters_dir / f"chapter_{chapter['chapter_number']:02d}_{chapter['chapter_title'].replace(' ', '_').lower()}.md"
     with open(chapter_filename, "w", encoding="utf-8") as f:
         f.write(f"# Chapter {chapter['chapter_number']}: {chapter['chapter_title']}\n\n")
         f.write(illustration_markdown + "\n\n")
-        f.write(edited_chapter)
+        f.write(formatted_chapter)
     
     # Update metadata with chapter details
-    book_metadata.update_chapter(chapter_index, chapter_filename, edited_chapter)
+    book_metadata.update_chapter(chapter_index, chapter_filename, formatted_chapter)
     
     # Get updated information
     book_info = book_metadata.get_book_info()
@@ -574,7 +581,7 @@ def get_book_status(book_title: str = None):
             print(f"{status_emoji} Chapter {chapter['chapter_number']}: {chapter['chapter_title']}")
             print(f"   Status: {chapter['status']}")
             if chapter["publication_date"]:
-                print(f"   Published: {chapter['publication_date']}")
+                print(f"   Published: {chapter["publication_date"]}")
             if chapter["word_count"] > 0:
                 print(f"   Words: {chapter["word_count"]} (~{chapter['page_count']} pages)")
             print()
