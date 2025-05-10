@@ -1,6 +1,6 @@
 # Chapter 3: Chapter 3
 
-![Chapter 3 Illustration: Chapter 3](illustrations\chapter_03_chapter_3_20250504_102319.png)
+![Chapter 3 Illustration: Chapter 3](illustrations/chapter_03_chapter_3_20250504_102319.png)
 
 ## Chapter 3
 

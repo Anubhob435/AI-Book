@@ -1,6 +1,6 @@
 # Chapter 2: Chapter 2
 
-![Chapter 2 Illustration: Chapter 2](illustrations\chapter_02_chapter_2_20250503_222813.png)
+![Chapter 2 Illustration: Chapter 2](illustrations/chapter_02_chapter_2_20250503_222813.png)
 
 ## Chapter 2: The Science Fair Conspiracy and Stolen Glances
 
