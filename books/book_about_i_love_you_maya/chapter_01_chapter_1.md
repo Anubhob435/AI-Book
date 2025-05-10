@@ -1,6 +1,6 @@
 # Chapter 1: Chapter 1
 
-![Chapter 1 Illustration: Chapter 1](illustrations\chapter_01_chapter_1_20250504_102135.png)
+![Chapter 1 Illustration: Chapter 1](illustrations/chapter_01_chapter_1_20250504_102135.png)
 
 ## Chapter 1: The Echo in the Empty Swing
 
