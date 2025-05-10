@@ -1,6 +1,6 @@
 # Chapter 1: Chapter 1
 
-![Chapter 1 Illustration: Chapter 1](illustrations\chapter_01_chapter_1_20250503_222720.png)
+![Chapter 1 Illustration: Chapter 1](illustrations/chapter_01_chapter_1_20250503_222720.png)
 
 ## Chapter 1: Geometry, Guava, and Glimmers
 
