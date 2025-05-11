@@ -1,3 +1,8 @@
+// Initialize script
+(function() {
+    // No need for dark mode initialization as it's now the default
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     // Elements
     const bookContainer = document.getElementById('bookContainer');
@@ -11,16 +16,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const listViewBtn = document.getElementById('listView');
     const prevChapterBtn = document.getElementById('prevChapter');
     const nextChapterBtn = document.getElementById('nextChapter');
-    const bookInfoBtn = document.getElementById('bookInfo');
-    const fontSizeBtn = document.getElementById('fontSizeBtn');
-    const themeBtn = document.getElementById('themeBtn');
+    const bookInfoBtn = document.getElementById('bookInfo');    const fontSizeBtn = document.getElementById('fontSizeBtn');
+    const bookmarkBtn = document.getElementById('bookmarkBtn');
     
     let currentChapterIndex = 0;
     let currentBookDetails = null;
-    let fontSizeIndex = 1; // 0: small, 1: medium, 2: large
-    
-    // Check if dark mode was previously enabled
-    let darkModeEnabled = localStorage.getItem('darkMode') === 'true';
+    let fontSizeIndex = parseInt(localStorage.getItem('fontSizeIndex') || '1'); // 0: small, 1: medium, 2: large
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '{}');
     
     // View mode buttons
     gridViewBtn.addEventListener('click', function() {
@@ -79,35 +81,30 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('fontSizeIndex', fontSizeIndex);
         }
     });
-    
-    // Apply dark mode if enabled
-    if (darkModeEnabled) {
-        document.body.classList.add('dark-mode');
-        const themeIcon = themeBtn.querySelector('i');
-        if (themeIcon) {
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        }
-    }
-    
-    // Theme toggle (dark mode)
-    themeBtn.addEventListener('click', function() {
-        darkModeEnabled = !darkModeEnabled;
-        document.body.classList.toggle('dark-mode', darkModeEnabled);
+      // Bookmark functionality
+    bookmarkBtn.addEventListener('click', function() {
+        if (!currentBookDetails) return;
         
-        // Store the dark mode preference
-        localStorage.setItem('darkMode', darkModeEnabled);
-        
-        const icon = this.querySelector('i');
-        if (icon) {
-            if (darkModeEnabled) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
+        const bookId = currentBookDetails.id;
+        if (!bookmarks[bookId]) {
+            bookmarks[bookId] = [];
         }
+        
+        // Check if current chapter is already bookmarked
+        const chapterIndex = bookmarks[bookId].indexOf(currentChapterIndex);
+        
+        if (chapterIndex === -1) {
+            // Add bookmark
+            bookmarks[bookId].push(currentChapterIndex);
+            this.querySelector('i').classList.add('active');
+        } else {
+            // Remove bookmark
+            bookmarks[bookId].splice(chapterIndex, 1);
+            this.querySelector('i').classList.remove('active');
+        }
+        
+        // Store bookmarks
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
     });
     
     // Apply saved font size on page load
@@ -674,6 +671,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
+        // Update bookmark button state
+        updateBookmarkState();
+        
         // Scroll to the top of the chapter content
         document.querySelector('.book-main').scrollTop = 0;
     }
@@ -760,14 +760,13 @@ document.addEventListener('DOMContentLoaded', function() {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
-        
-        .book-stats {
+          .book-stats {
             display: flex;
             justify-content: center;
             gap: 2rem;
             margin: 2rem 0;
             padding: 1.5rem;
-            background: rgba(240, 245, 252, 0.7);
+            background: rgba(3, 52, 110, 0.5);
             border-radius: var(--border-radius-md);
         }
         
@@ -806,13 +805,12 @@ document.addEventListener('DOMContentLoaded', function() {
             margin-bottom: 1rem;
             line-height: 1.7;
         }
-        
-        .cta-button {
+          .cta-button {
             display: inline-flex;
             align-items: center;
             gap: 0.8rem;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
+            color: var(--accent-color);
             padding: 0.8rem 2rem;
             border-radius: 30px;
             font-weight: 500;
@@ -869,153 +867,121 @@ document.addEventListener('DOMContentLoaded', function() {
         
         .font-large {
             font-size: 1.3rem;
-        }
-          /* Dark mode */
-        body.dark-mode {
-            background-color: #121212;
-            color: #e0e0e0;
-        }
-        
-        body.dark-mode header {
-            background: linear-gradient(135deg, #303f9f, #1a237e);
-        }
-        
-        body.dark-mode .main-title {
-            color: #e0e0e0;
-        }
-        
-        body.dark-mode .search-input {
-            background-color: rgba(40, 40, 40, 0.9);
-            color: #e0e0e0;
-            border: 1px solid #444;
-        }
-        
-        body.dark-mode .filter-btn {
-            background-color: rgba(60, 60, 60, 0.3);
-        }
-        
-        body.dark-mode .filter-btn.active,
-        body.dark-mode .filter-btn:hover {
-            background-color: rgba(90, 90, 90, 0.5);
-        }
-        
-        body.dark-mode .view-btn {
-            background-color: #2d2d2d;
-            color: #b0b0b0;
-        }
-        
-        body.dark-mode .view-btn.active,
-        body.dark-mode .view-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        body.dark-mode .book-card {
-            background-color: #1e1e1e;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        body.dark-mode .book-info h2 {
+        }          /* Dark mode is now the default */
             color: #f0f0f0;
         }
         
-        body.dark-mode .book-info p {
+        html.dark-mode .book-info p { /* Changed from body.dark-mode */
             color: #b0b0b0;
         }
         
-        body.dark-mode .book-meta {
+        html.dark-mode .book-meta { /* Changed from body.dark-mode */
             border-top-color: #333;
         }
         
-        body.dark-mode .book-meta .date,
-        body.dark-mode .book-meta .chapters {
+        html.dark-mode .book-meta .date,
+        html.dark-mode .book-meta .chapters { /* Changed from body.dark-mode */
             color: #999;
         }
         
-        body.dark-mode .book-meta .chapters {
+        html.dark-mode .book-meta .chapters { /* Changed from body.dark-mode */
             background: #2d2d2d;
         }
         
-        body.dark-mode .modal-content {
+        html.dark-mode .modal-content { /* Changed from body.dark-mode */
             background-color: #1e1e1e;
         }
         
-        body.dark-mode .book-sidebar {
+        html.dark-mode .book-sidebar { /* Changed from body.dark-mode */
             background-color: #181818;
             border-right-color: rgba(255, 255, 255, 0.05);
         }
         
-        body.dark-mode .chapter-item:hover {
+        html.dark-mode .chapter-item:hover { /* Changed from body.dark-mode */
             background-color: rgba(255, 255, 255, 0.05);
         }
         
-        body.dark-mode .chapter-item.active {
+        html.dark-mode .chapter-item.active { /* Changed from body.dark-mode */
             background-color: rgba(67, 97, 238, 0.2);
         }
         
-        body.dark-mode .chapter-name {
+        html.dark-mode .chapter-name { /* Changed from body.dark-mode */
             color: #e0e0e0;
         }
         
-        body.dark-mode .close-button,
-        body.dark-mode .reader-setting-btn {
+        html.dark-mode .close-button,
+        html.dark-mode .reader-setting-btn { /* Changed from body.dark-mode */
             background-color: rgba(40, 40, 40, 0.9);
             color: #e0e0e0;
         }
         
-        body.dark-mode .book-controls {
+        html.dark-mode .book-controls { /* Changed from body.dark-mode */
             background-color: rgba(40, 40, 40, 0.9);
         }
         
-        body.dark-mode .control-btn {
+        html.dark-mode .control-btn { /* Changed from body.dark-mode */
             color: #b0b0b0;
         }
-          body.dark-mode .book-stats {
+        html.dark-mode .book-stats { /* Changed from body.dark-mode */
             background: rgba(40, 40, 40, 0.7);
         }
         
-        body.dark-mode .chapter-content {
+        html.dark-mode .chapter-content { /* Changed from body.dark-mode */
             color: #e0e0e0;
         }
         
-        body.dark-mode .chapter-content h1, 
-        body.dark-mode .chapter-content h2, 
-        body.dark-mode .chapter-content h3 {
+        html.dark-mode .chapter-content h1, 
+        html.dark-mode .chapter-content h2, 
+        html.dark-mode .chapter-content h3 { /* Changed from body.dark-mode */
             color: #f0f0f0;
         }
         
-        body.dark-mode .chapter-image {
+        html.dark-mode .chapter-image { /* Changed from body.dark-mode */
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
         }
         
-        body.dark-mode footer {
+        html.dark-mode footer { /* Changed from body.dark-mode */
             background-color: #181818;
             color: #b0b0b0;
         }
         
-        body.dark-mode footer::before {
+        html.dark-mode footer::before { /* Changed from body.dark-mode */
             background: linear-gradient(to bottom, rgba(18, 18, 18, 0), #181818);
         }
         
-        body.dark-mode .footer-section h4 {
+        html.dark-mode .footer-section h4 { /* Changed from body.dark-mode */
             color: #e0e0e0;
         }
         
-        body.dark-mode .footer-section a {
+        html.dark-mode .footer-section a { /* Changed from body.dark-mode */
             color: #b0b0b0;
         }
         
-        body.dark-mode .footer-section a:hover {
+        html.dark-mode .footer-section a:hover { /* Changed from body.dark-mode */
             color: var(--primary-light);
         }
         
-        body.dark-mode .footer-bottom {
+        html.dark-mode .footer-bottom { /* Changed from body.dark-mode */
             border-top-color: #333;
         }
         
-        body.dark-mode .cta-button {
+        html.dark-mode .cta-button { /* Changed from body.dark-mode */
             background: linear-gradient(135deg, #3a0ca3, #4361ee);
         }
     `;
     document.head.appendChild(additionalStyles);
 });
+
+// Function to update bookmark button state
+function updateBookmarkState() {
+    if (!currentBookDetails) return;
+    
+    const bookId = currentBookDetails.id;
+    const bookmarkIcon = bookmarkBtn.querySelector('i');
+    
+    if (bookmarks[bookId] && bookmarks[bookId].includes(currentChapterIndex)) {
+        bookmarkIcon.classList.add('active');
+    } else {
+        bookmarkIcon.classList.remove('active');
+    }
+}

@@ -1,20 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #4361ee;
-    --primary-light: #4895ef;
-    --secondary-color: #3a0ca3;
-    --accent-color: #f72585;
-    --light-color: #f8f9fa;
-    --dark-color: #212529;
-    --background-color: #f7f9fc;
-    --card-color: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --text-tertiary: #999999;
-    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 15px 25px rgba(0, 0, 0, 0.1);
+    --primary-color: #03346E;
+    --primary-light: #6EACDA;
+    --secondary-color: #021526;
+    --accent-color: #E2E2B6;
+    --light-color: #6EACDA;
+    --dark-color: #021526;
+    --background-color: #021526;
+    --card-color: #03346E;
+    --text-primary: #E2E2B6;
+    --text-secondary: #6EACDA;
+    --text-tertiary: #6EACDA;
+    --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 15px 25px rgba(0, 0, 0, 0.4);
     --border-radius-sm: 6px;
     --border-radius-md: 12px;
     --border-radius-lg: 20px;
@@ -38,7 +38,7 @@ body {
 
 header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
+    color: var(--accent-color);
     padding: 2rem 0;
     margin-bottom: 3rem;
     box-shadow: var(--shadow-md);
@@ -85,14 +85,15 @@ header p {
     border: none;
     border-radius: 30px;
     box-shadow: var(--shadow-sm);
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--primary-color);
+    color: var(--text-primary);
     transition: var(--transition-default);
 }
 
 .search-input:focus {
     outline: none;
     box-shadow: var(--shadow-md);
-    background-color: white;
+    background-color: var(--primary-light);
 }
 
 .filters {
@@ -106,8 +107,8 @@ header p {
 .filter-btn {
     padding: 0.5rem 1rem;
     border: none;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--accent-color);
     border-radius: 20px;
     font-size: 0.85rem;
     cursor: pointer;
@@ -115,7 +116,8 @@ header p {
 }
 
 .filter-btn:hover, .filter-btn.active {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: var(--primary-light);
+    color: var(--secondary-color);
     transform: translateY(-2px);
 }
 
@@ -144,7 +146,7 @@ main {
 }
 
 .view-btn {
-    background: var(--light-color);
+    background: var(--primary-color);
     border: none;
     width: 40px;
     height: 40px;
@@ -159,7 +161,7 @@ main {
 
 .view-btn.active, .view-btn:hover {
     background: var(--primary-light);
-    color: white;
+    color: var(--dark-color);
 }
 
 .book-grid {
@@ -226,12 +228,11 @@ main {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    display: flex;
+    height: 100%;    display: flex;
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
+    color: var(--accent-color);
     font-family: 'Playfair Display', serif;
     font-size: 1.4rem;
     text-align: center;
@@ -257,7 +258,7 @@ main {
 }
 
 .book-card:hover .book-info h2 {
-    color: var(--primary-color);
+    color: var(--accent-color);
 }
 
 .book-info p {
@@ -275,7 +276,7 @@ main {
     color: var(--text-tertiary);
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid #eee;
+    border-top: 1px solid var(--primary-light);
 }
 
 .book-meta .date {
@@ -345,8 +346,8 @@ main {
 .book-sidebar {
     width: 280px;
     height: 100%;
-    background-color: #f0f5fc;
-    border-right: 1px solid rgba(0,0,0,0.05);
+    background-color: var(--secondary-color);
+    border-right: 1px solid var(--primary-light);
     overflow-y: auto;
     padding: 2rem 0;
 }
@@ -365,21 +366,21 @@ main {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
     cursor: pointer;
     z-index: 10;
-    color: var(--text-primary);
+    color: var(--accent-color);
     border: none;
     box-shadow: var(--shadow-sm);
     transition: var(--transition-default);
 }
 
 .close-button:hover {
-    background-color: var(--light-color);
+    background-color: var(--primary-light);
     transform: rotate(90deg);
 }
 
@@ -390,7 +391,7 @@ main {
     transform: translateX(-50%);
     display: flex;
     gap: 1rem;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: var(--primary-color);
     padding: 0.8rem 1.5rem;
     border-radius: 50px;
     box-shadow: var(--shadow-md);
@@ -401,7 +402,7 @@ main {
     background: none;
     border: none;
     font-size: 1.2rem;
-    color: var(--text-secondary);
+    color: var(--accent-color);
     cursor: pointer;
     width: 40px;
     height: 40px;
@@ -413,8 +414,8 @@ main {
 }
 
 .control-btn:hover {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--secondary-color);
+    color: var(--accent-color);
 }
 
 .reader-settings {
@@ -429,7 +430,7 @@ main {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -442,8 +443,12 @@ main {
 }
 
 .reader-setting-btn:hover {
-    background-color: var(--light-color);
-    color: var(--primary-color);
+    background-color: var(--primary-light);
+    color: var(--accent-color);
+}
+
+.reader-setting-btn i.active {
+    color: var(--accent-color);
 }
 
 /* Book Content Styles */
@@ -518,16 +523,17 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: var(--accent-color);
 }
 
 .chapter-item:hover {
-    background-color: rgba(0,0,0,0.02);
+    background-color: rgba(110, 172, 218, 0.2);
     border-left-color: var(--primary-light);
 }
 
 .chapter-item.active {
-    background-color: rgba(67, 97, 238, 0.05);
-    border-left-color: var(--primary-color);
+    background-color: var(--primary-color);
+    border-left-color: var(--accent-color);
 }
 
 .chapter-title {
@@ -576,17 +582,17 @@ main {
     font-size: 2.5rem;
     margin-bottom: 2rem;
     text-align: center;
-    color: var(--primary-color);
+    color: var(--accent-color);
 }
 
 .chapter-content h2 {
     font-size: 2rem;
-    color: var(--text-primary);
+    color: var(--primary-light);
 }
 
 .chapter-content h3 {
     font-size: 1.5rem;
-    color: var(--text-primary);
+    color: var(--primary-light);
     margin-top: 2rem;
 }
 
@@ -693,8 +699,8 @@ main {
 footer {
     padding: 4rem 2rem 2rem;
     margin-top: 5rem;
-    background-color: var(--accent-color);
-    color: rgba(255, 255, 255, 0.8);
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
     position: relative;
 }
 
@@ -705,7 +711,7 @@ footer::before {
     left: 0;
     right: 0;
     height: 5px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-light), var(--accent-color));
 }
 
 .footer-content {
