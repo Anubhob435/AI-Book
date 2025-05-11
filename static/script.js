@@ -10,6 +10,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalContent = document.getElementById('modalContent');
     const bookSidebar = document.querySelector('.book-sidebar');
     const closeButton = document.querySelector('.close-button');
+      // Helper function to get the most recent image timestamp for a book folder
+    function getLatestImageTimestamp(folder) {
+        // Since we can't directly access the filesystem from the browser,
+        // we'll use a simple pattern based on folder structure with the actual timestamps
+        
+        // For known folders, return the exact timestamps based on actual files
+        const folderTimestampMap = {
+            'book_about_space_exploration_in_the_distant_future': '20250412_212549',
+            'book_about_an_indian_crime_thriller': '20250412_214949',
+            'book_about_i_love_you_maya': '20250504_102135',
+            'book_about_my_incomple_love_story_from_10th_grade': '20250503_222720',
+            'book_about_lost_in_your_memories_forever': '20250511_000153'
+        };
+        
+        // Return known timestamp or generate a reasonable one
+        return folderTimestampMap[folder] || '20250501_000000';
+    }
     const searchInput = document.getElementById('searchInput');
     const filterButtons = document.querySelectorAll('.filter-btn');
     const gridViewBtn = document.getElementById('gridView');
@@ -220,10 +237,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         throw new Error(`Failed to fetch metadata for ${folder}`);
                     }
                     return response.json();
-                })
-                .then(metadata => {                    // Get the first chapter illustration as cover image
+                })                .then(metadata => {                    // Get the first chapter illustration as cover image
                     const firstChapterNum = '01';
                     // Construct a specific path pattern based on the folder structure
+                    // We'll use the pattern that matches our file system: chapter_01_chapter_1_20250412_214949.png
                     const coverImagePath = `books/${folder}/illustrations/chapter_${firstChapterNum}_chapter_1_`;
                     
                     return {
@@ -361,13 +378,32 @@ document.addEventListener('DOMContentLoaded', function() {
             category = 'fiction';
         }
         
-        bookCard.setAttribute('data-category', category);
-        
-        bookCard.innerHTML = `
-            <div class="book-image">
-                <div class="book-cover">
+        bookCard.setAttribute('data-category', category);        // Try to find the first chapter illustration file
+        let imgHtml = '';
+        if (book.coverImagePath) {
+            // We need to handle the specific image names from our file system
+            const timestamp = getLatestImageTimestamp(book.folder);
+            
+            // Log the image path for debugging
+            console.log(`Trying to load image: ${book.coverImagePath}${timestamp}.png`);
+            
+            // Create image element with fallback to text if image fails to load
+            imgHtml = `
+                <img src="${book.coverImagePath}${timestamp}.png" 
+                     alt="${book.title}" 
+                     style="width: 100%; height: 100%; object-fit: cover;"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; console.log('Image failed to load');" />
+                <div class="book-cover" style="display:none;">
                     ${book.title}
                 </div>
+            `;
+        } else {
+            imgHtml = `<div class="book-cover">${book.title}</div>`;
+        }
+
+        bookCard.innerHTML = `
+            <div class="book-image">
+                ${imgHtml}
             </div>
             <div class="book-info">
                 <h2>${book.title}</h2>
