@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'book_about_an_indian_crime_thriller': '20250412_214949',
             'book_about_i_love_you_maya': '20250504_102135',
             'book_about_my_incomple_love_story_from_10th_grade': '20250503_222720',
-            'book_about_lost_in_your_memories_forever': '20250511_000153'
+            'book_about_lost_in_your_memories_forever': '20250511_000153',
+            'book_about_dark_romance': '20250511_144312'
         };
         
         // Return known timestamp or generate a reasonable one
@@ -215,8 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetchStaticBooks();
         }
     }
-    
-    // For static sites without a server, we can build the structure manually
+      // For static sites without a server, we can build the structure manually
     function fetchStaticBooks() {
         // Get directories under the books folder
         const bookFolders = [
@@ -224,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'book_about_an_indian_crime_thriller',
             'book_about_i_love_you_maya',
             'book_about_my_incomple_love_story_from_10th_grade',
-            'book_about_lost_in_your_memories_forever'
+            'book_about_lost_in_your_memories_forever',
+            'book_about_dark_romance'
         ];
         
         const books = [];
