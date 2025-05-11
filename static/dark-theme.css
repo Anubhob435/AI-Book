@@ -118,6 +118,20 @@
 
 .chapter-image {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease;
+}
+
+.chapter-image:hover {
+    transform: scale(1.02);
+}
+
+/* Image loading indication */
+.chapter-illustration {
+    border: 2px solid var(--primary-light);
+    margin: 1rem 0;
+    padding: 0.5rem;
+    border-radius: var(--border-radius-md);
+    background: rgba(3, 52, 110, 0.2);
 }
 
 /* Book cards */

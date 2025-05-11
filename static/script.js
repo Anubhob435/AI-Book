@@ -221,10 +221,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     return response.json();
                 })
-                .then(metadata => {
-                    // Get the first chapter illustration as cover image
+                .then(metadata => {                    // Get the first chapter illustration as cover image
                     const firstChapterNum = '01';
-                    const firstChapterIllustration = `chapter_${firstChapterNum}_chapter_1`;
+                    // Construct a specific path pattern based on the folder structure
+                    const coverImagePath = `books/${folder}/illustrations/chapter_${firstChapterNum}_chapter_1_`;
                     
                     return {
                         id: folder,
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         date: metadata.book_info.creation_date,
                         chapters: metadata.book_info.total_chapters,
                         folder: folder,
-                        coverImage: `books/${folder}/illustrations/${firstChapterIllustration}_*.png`
+                        coverImagePath: coverImagePath
                     };
                 })
                 .catch(error => {
@@ -451,17 +451,19 @@ document.addEventListener('DOMContentLoaded', function() {
                                 throw new Error(`Failed to fetch chapter ${i}`);
                             }
                             return response.text();
-                        })
-                        .then(text => {
+                        })                        .then(text => {
                             // Extract title from markdown
                             const titleMatch = text.match(/# (.*)/);
                             const title = titleMatch ? titleMatch[1] : `Chapter ${i}`;
-                            
-                            // Find illustration path if it exists in the markdown
+                              // Find illustration path if it exists in the markdown
                             let illustrationPath = null;
                             const illustrationMatch = text.match(/!\[.*?\]\((.*?)\)/);
                             if (illustrationMatch) {
-                                illustrationPath = illustrationMatch[1];
+                                // Get the relative path from markdown and make it absolute
+                                const relativePath = illustrationMatch[1];
+                                // Construct the proper path to the illustration
+                                illustrationPath = `books/${book.folder}/${relativePath}`;
+                                console.log('Illustration path:', illustrationPath);
                             }
                             
                             return {
@@ -638,17 +640,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }    function displayChapter(chapter) {
         // Convert markdown to HTML
         let htmlContent = convertMarkdownToHTML(chapter.content);
-        
-        // Check if this chapter has an illustration and add it to HTML
+          // Check if this chapter has an illustration and add it to HTML
         let illustrationHtml = '';
-        
-        if (chapter.illustrationPath) {
+          if (chapter.illustrationPath) {
+            console.log('Displaying illustration:', chapter.illustrationPath);
             illustrationHtml = `
                 <div class="chapter-illustration">
                     <img src="${chapter.illustrationPath}" 
                          alt="Chapter ${chapter.number} Illustration" 
                          class="chapter-image" 
-                         loading="lazy">
+                         loading="lazy"
+                         onerror="this.onerror=null; console.error('Failed to load image:', this.src); this.src=''; this.parentNode.style.display='none';">
                 </div>
             `;
         }
@@ -709,9 +711,15 @@ document.addEventListener('DOMContentLoaded', function() {
             .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
             .replace(/^### (.*?)$/gm, '<h3>$1</h3>')
             .replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
-        
-        // Handle remaining images ![alt](src) -> <img src="src" alt="alt" class="chapter-image">
-        html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" class="chapter-image">');
+          // Handle remaining images ![alt](src) -> <img src="src" alt="alt" class="chapter-image">
+        html = html.replace(/!\[(.*?)\]\((.*?)\)/g, function(match, alt, src) {
+            // Construct proper path to illustrations if they're relative
+            let imagePath = src;
+            if (currentBookDetails && src.startsWith('illustrations/')) {
+                imagePath = `books/${currentBookDetails.folder}/${src}`;
+            }
+            return `<img src="${imagePath}" alt="${alt}" class="chapter-image" onerror="this.onerror=null; this.style.display='none';">`;
+        });
         
         // Handle bold **text** -> <strong>text</strong>
         html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
